@@ -1,3 +1,13 @@
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 .App {
   text-align: center;
 }
@@ -28,6 +38,12 @@
   color: #61dafb;
 }
 
+.icon-font-color{
+  color: white;
+}
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +51,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
+th,
+td {
+  width: 20px;
+  overflow: hidden;
+}
+
+.content {
+  margin: 0 auto; 
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
 }
