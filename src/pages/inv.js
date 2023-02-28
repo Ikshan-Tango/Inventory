@@ -24,59 +24,17 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 // import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material';
+
+import { useState,useEffect } from 'react';
+import styles from '../pages/inv.module.css';
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
-
-const messages = [
-  {
-    id: 1,
-    primary: 'Paracetamol',
-    secondary: ["Quantity: 10","Expiry: 2026"],
-    person: '/static/images/avatar/5.jpg',
-  },
-  {
-    id: 2,
-    primary: 'Paracetamol',
-    secondary: ["Quantity: 10","Expiry: 2026"],
-    person: '/static/images/avatar/1.jpg',
-  },
-  {
-    id: 3,
-    primary: 'Azythromycin',
-    secondary: ["Quantity: 10","Expiry: 2026"],
-    person: '/static/images/avatar/2.jpg',
-  },
-  {
-    id: 4,
-    primary: 'Paracetamol',
-    secondary: ["Quantity: 10","Expiry: 2026"],
-    person: '/static/images/avatar/3.jpg',
-  },
-  {
-    id: 5,
-    primary: 'Azythromycin',
-    secondary: ["Quantity: 10","Expiry: 2026"],
-    person: '/static/images/avatar/4.jpg',
-  },
-  {
-    id: 6,
-    primary: 'Paracetamol',
-    secondary: ["Quantity: 10","Expiry: 2026"],
-    person: '/static/images/avatar/5.jpg',
-  },
-  {
-    id: 7,
-    primary: 'Azythromycin',
-    secondary: ["Quantity: 10","Expiry: 2026"],
-    person: '/static/images/avatar/1.jpg',
-  },
-];
 
 const StyledFab = styled(Fab)({
   position: 'absolute',
@@ -88,16 +46,84 @@ const StyledFab = styled(Fab)({
 });
 
 export const Inv= () => {
+
+      const [meds , setNewMeds] = useState(null)
+      const [formMeds, setFormMeds] = useState({
+          "id": -1,
+          "name":"Random",
+          "quantity": 0,
+          "expiry": ""
+      })
+
+      useEffect(() => {
+        getMeds()
+          } ,[])
+  
+      function getMeds() {
+        axios({
+            method: "GET",
+            url:"/medicines/",
+          })
+          .then((response)=>{
+            const data = response.data
+            // console.log(data["id"])
+            setNewMeds(data)
+          })
+          .catch((error) => {
+            if (error.response) {
+              console.log(error.response);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+              }
+          })
+        }
+
+        function createMed(event) {
+          axios({
+            method: "POST",
+            url:"/medicines/",
+            data:{
+              id: formMeds.id,
+              name:formMeds.name,
+              quantity: formMeds.quantity,
+              expiry: formMeds.expiry
+             }
+          })
+          .then((response) => {
+            getMeds()
+          })
+      
+          setFormMeds(({
+            id: -1,
+            name:"Random",
+            quantity: 0,
+            expiry: ""}))
+      
+          event.preventDefault()
+      }
+
+      function handleChange(event) { 
+        const {value, name} = event.target
+        setFormMeds(prevMed => ({
+            ...prevMed, [name]: value})
+        )}
+  
+
+
+
   return (
     <React.Fragment>
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Paper square sx={{ pb: '50px' }}>
-        <Typography variant="h5" gutterBottom component="div" sx={{ p: 2, pb: 0 }}>
+      <Paper elevation={5} square sx={{ pb: '3rem' ,pl:'3rem' , pr:'3rem',}}>
+        <Typography className={styles.head} variant="h5" gutterBottom component="div" sx={{ p: 2, pb: 0 }}>
           Inventory
         </Typography>
-        <List sx={{ mb: 2 }}>
-          {messages.map(({ id, primary, secondary, person }) => (
+        <List sx={{ mb: 2 ,
+        }}>
+
+
+          { meds && meds.map(({ id, quantity,expiry,name}) => (
             <React.Fragment key={id}>
               {id === 1 && (
                 <ListSubheader sx={{ bgcolor: 'background.paper' }}>
@@ -117,22 +143,34 @@ export const Inv= () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography>{primary}</Typography>
+                  <Typography>{name}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {
-                    secondary.map((it)=>(
-                      <>
+                  
                         <Typography
                           variant= "p"
+                          sx={{
+                            opacity:'0.70',
+
+
+                          }}
                         >
-                          {it}
+                          Quantity: {quantity}
                         </Typography>
                         <br />
                         <br />
-                      </>
-                    ))
-                  }
+                        <Typography
+                          variant= "p"
+                          sx={{
+                            opacity:'0.70',
+                            
+
+                          }}
+                        >
+                          Expiry: {expiry}
+                        </Typography>
+                      
+                  
                   <Box
                     sx={{
                       display:"flex",

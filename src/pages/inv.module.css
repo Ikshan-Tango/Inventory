@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+.head{
+    font-family: 'Roboto Mono', monospace;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 3rem;
+}
