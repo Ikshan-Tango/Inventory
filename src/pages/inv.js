@@ -30,6 +30,8 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { useState,useEffect } from 'react';
 import styles from '../pages/inv.module.css';
 
+import {Form} from '../components/Form';
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -48,6 +50,7 @@ const StyledFab = styled(Fab)({
 export const Inv= () => {
 
       const [meds , setNewMeds] = useState(null)
+      const [add, setAdd] = useState(false)
       const [formMeds, setFormMeds] = useState({
           "id": -1,
           "name":"Random",
@@ -221,9 +224,14 @@ export const Inv= () => {
           <IconButton color="inherit" aria-label="open drawer">
             <MenuIcon />
           </IconButton>
-          <StyledFab color="secondary" aria-label="add">
-            <AddIcon />
+
+
+          <StyledFab color="secondary" aria-label="add" >
+            <AddIcon onClick={()=>{setAdd(true)}}/>
+            {add? <Form/>: " "}
           </StyledFab>
+
+
           <Box sx={{ flexGrow: 1 }} />
           <IconButton color="inherit">
             <SearchIcon />
