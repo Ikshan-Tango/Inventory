@@ -1,9 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
+.main{
+    display: flex;
+    flex-direction: column;
+}
+
 .heading{
     font-family: 'Roboto Mono', monospace;
-
     font-weight: 1000;
     text-align: center;
-    font-size: 4rem;
+    font-size: 2rem;
+}
+
+.button{
+    align-self: flex-start;
+    margin-left: 1rem;
 }

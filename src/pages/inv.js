@@ -28,7 +28,7 @@ import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material';
 
 import { useState,useEffect } from 'react';
-import styles from '../pages/inv.module.css';
+import styles from './inv.module.css';
 
 import {Form} from '../components/Form';
 
@@ -119,7 +119,9 @@ export const Inv= () => {
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Paper elevation={5} square sx={{ pb: '3rem' ,pl:'3rem' , pr:'3rem',}}>
-        <Typography className={styles.head} variant="h5" gutterBottom component="div" sx={{ p: 2, pb: 0 }}>
+        {add? <Form/>: " "}
+
+        <Typography className={styles.heading} variant="h5" gutterBottom component="div" sx={{ p: 2, pb: 0 }}>
           Inventory
         </Typography>
         <List sx={{ mb: 2 ,
@@ -227,8 +229,8 @@ export const Inv= () => {
 
 
           <StyledFab color="secondary" aria-label="add" >
-            <AddIcon onClick={()=>{setAdd(true)}}/>
-            {add? <Form/>: " "}
+            <AddIcon onClick={()=>{setAdd(!add)}}/>
+            
           </StyledFab>
 
 
